@@ -21,13 +21,13 @@ export default (filepath1, filepath2) => {
     const value2 = parsedData2[el];
     if (value1 !== undefined && value2 !== undefined) {
       return value1 === value2
-        ? `  ${el}: ${parsedData1[el]}`
-        : `- ${el}: ${parsedData1[el]}\n+ ${el}: ${parsedData2[el]}`;
+        ? `    ${el}: ${parsedData1[el]}`
+        : `  - ${el}: ${parsedData1[el]}\n  + ${el}: ${parsedData2[el]}`;
     }
     if (value1 !== undefined) {
-      return `- ${el}: ${parsedData1[el]}`;
+      return `  - ${el}: ${parsedData1[el]}`;
     }
-    return `+ ${el}: ${parsedData2[el]}`;
+    return `  + ${el}: ${parsedData2[el]}`;
   }).join('\n');
 
   return `{\n${result}\n}`;

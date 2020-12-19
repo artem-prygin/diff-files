@@ -1,4 +1,5 @@
 {
   "host": "hexlet.io",
-  "timeout": 50
+  "timeout": 50,
+  "follow": true
 }

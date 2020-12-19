@@ -1,3 +1,5 @@
 {
-  "host": "hexlet.io"
+  "host": "hexlet.io",
+  "follow": false,
+  "new": 1
 }
