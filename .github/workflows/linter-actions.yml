@@ -1,8 +1,10 @@
 # Name of workflow
-name: Linter Github Actions
+name: Node CI
 
 # Trigger the workflow on push or pull request
-on: push
+on:
+  - push
+  - pull_request
 
 jobs:
   build:
@@ -27,8 +29,8 @@ jobs:
         # The Node.js version to configure
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install
-        # Install project
+      - name: npm install, build
+        # Install and build project
         run: |
           make install
         # Add environment variables
@@ -38,3 +40,13 @@ jobs:
         # Run Linter
         run: |
           make lint
+      - name: Test & publish code coverage
+        # Publish code coverage on Code Climate
+        # https://github.com/paambaati/codeclimate-action
+        uses: paambaati/codeclimate-action@v2.7.4
+        # Add Code Climate secret key
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: make test-coverage
+          debug: true
