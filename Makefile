@@ -5,4 +5,4 @@ lint:
 test:
 	npx jest --watch
 test-coverage:
-	npx jest -- --coverage --coverageProvider=v8 --passWithNoTests
+	npx jest 
