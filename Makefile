@@ -3,6 +3,6 @@ install:
 lint:
 	npx eslint .
 test:
-	npx jest --watch
+	npm test
 test-coverage:
-	npx jest 
+	npx jest --coverage --coverageProvider=v8
