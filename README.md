@@ -6,3 +6,6 @@
 
 **Comparing two JSON files**
 [![asciicast](https://asciinema.org/a/Q2l3ylqzAFB2UNw6l3Pu7YHaP.svg)](https://asciinema.org/a/Q2l3ylqzAFB2UNw6l3Pu7YHaP)
+
+**Comparing two YAML files**
+[![asciicast](https://asciinema.org/a/YeATXJie4XH2I9cjfLFqLUU2m.svg)](https://asciinema.org/a/YeATXJie4XH2I9cjfLFqLUU2m)

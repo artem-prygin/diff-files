@@ -1,14 +1,24 @@
 import fs from 'fs';
 import path from 'path';
+import parse from './parsers.js';
 
-const makeAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath);
+const makeAbsolutePath = (filepath) => {
+  const file = path.resolve(process.cwd(), filepath);
+  if (fs.existsSync(file)) {
+    return file;
+  }
+  throw new Error(`Sorry, ${file} doesn't exist`);
+};
 
 export default (filepath1, filepath2) => {
   const data1 = fs.readFileSync(makeAbsolutePath(filepath1), 'utf-8');
   const data2 = fs.readFileSync(makeAbsolutePath(filepath2), 'utf-8');
 
-  const parsedData1 = JSON.parse(data1);
-  const parsedData2 = JSON.parse(data2);
+  const extension1 = path.extname(filepath1);
+  const extension2 = path.extname(filepath2);
+
+  const parsedData1 = parse(data1, extension1);
+  const parsedData2 = parse(data2, extension2);
 
   const keys1 = Object.keys(parsedData1);
   const keys2 = Object.keys(parsedData2);

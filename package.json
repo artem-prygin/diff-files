@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/artem-prygin/frontend-project-lvl2#readme",
   "dependencies": {
-    "commander": "^6.2.0"
+    "commander": "^6.2.0",
+    "js-yaml": "^3.14.1"
   },
   "devDependencies": {
     "@jest/globals": "^26.6.2",
