@@ -4,6 +4,7 @@ env:
 
 extends:
   - 'airbnb-base'
+  - 'plugin:jest/recommended'
 
 parserOptions:
   ecmaVersion: 11
