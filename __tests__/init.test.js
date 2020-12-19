@@ -1,7 +1,8 @@
-import dummy from '../dummy.js';
-import dummy2 from '../dummy2.js';
+import gendiff from '../index.js';
 
-test('dummy', () => {
-  expect(dummy(1)).toBe(2);
-  expect(dummy2(1)).toBe(2);
+const file1 = new URL('./__fixtures__/file1.json', import.meta.url).pathname;
+const file2 = new URL('./__fixtures__/file2.json', import.meta.url).pathname;
+
+test('gendiff', () => {
+  expect(gendiff(file1, file2)).toBe('{\n  host: hexlet.io\n- timeout: 50\n}');
 });

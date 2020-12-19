@@ -30,5 +30,5 @@ export default (filepath1, filepath2) => {
     return `+ ${el}: ${parsedData2[el]}`;
   }).join('\n');
 
-  console.log(`{\n${result}\n}`);
+  return `{\n${result}\n}`;
 };
