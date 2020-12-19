@@ -1,5 +1,5 @@
 # Name of workflow
-name: Node CI
+name: Test Coverage and Linter Check
 
 # Trigger the workflow on push or pull request
 on:
