@@ -1,12 +1,13 @@
 import { isObject } from './helpers.js';
 
 const generateDiffTree = (data1, data2) => {
-  const uniqueKeys = Object.keys(data1)
+  const filteredKeys = Object.keys(data1)
     .concat(Object.keys(data2))
-    .filter((el, index, arr) => arr.indexOf(el) === index)
-    .sort();
+    .filter((el, index, arr) => arr.indexOf(el) === index);
 
-  return uniqueKeys.flatMap((key) => {
+  const sortedKeys = [...filteredKeys].sort();
+
+  return sortedKeys.flatMap((key) => {
     switch (true) {
       case isObject(data1[key]) && isObject(data2[key]):
         return { key, value: generateDiffTree(data1[key], data2[key]), status: 'hasChildren' };
