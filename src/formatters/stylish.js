@@ -10,14 +10,15 @@ const valueToString = (data, depth) => {
   return `{\n${dataEntries}\n${repeatSpaces(depth)}}`;
 };
 
+const generateString = (key, value, symbol, depth) => `${repeatSpacesForChanged(depth)}${symbol} ${key}: ${valueToString(value, depth)}`;
+
 const outputOptions = {
   // eslint-disable-next-line no-use-before-define
   hasChildren: ({ key, value }, depth) => `${repeatSpaces(depth)}${key}: ${stylish(value, depth + 1)}`,
-  removed: ({ key, value }, depth) => `${repeatSpacesForChanged(depth)}- ${key}: ${valueToString(value, depth)}`,
-  added: ({ key, value }, depth) => `${repeatSpacesForChanged(depth)}+ ${key}: ${valueToString(value, depth)}`,
+  removed: ({ key, value }, depth) => generateString(key, value, '-', depth),
+  added: ({ key, value }, depth) => generateString(key, value, '+', depth),
   unchanged: ({ key, value }, depth) => `${repeatSpaces(depth)}${key}: ${valueToString(value, depth)}`,
-  updated: ({ key, value, oldValue }, depth) => `${repeatSpacesForChanged(depth)}- ${key}: ${valueToString(oldValue, depth)}
-${repeatSpacesForChanged(depth)}+ ${key}: ${valueToString(value, depth)}`,
+  updated: ({ key, value, oldValue }, depth) => `${generateString(key, oldValue, '-', depth)}\n${generateString(key, value, '+', depth)}`,
 };
 
 const stylish = (diffTree, depth = 1) => {

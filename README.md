@@ -9,3 +9,6 @@
 
 **Comparing two YAML files**
 [![asciicast](https://asciinema.org/a/CulPSucSaOXUxQLUzaS5EfsBX.svg)](https://asciinema.org/a/CulPSucSaOXUxQLUzaS5EfsBX)
+
+**Comparing two complex files with stylish format**
+[![asciicast](https://asciinema.org/a/cIqgZnDUqgEoxT9J28PZwswki.svg)](https://asciinema.org/a/cIqgZnDUqgEoxT9J28PZwswki)
