@@ -11,3 +11,12 @@ export const makeAbsolutePath = (filepath) => {
   }
   throw new Error(`Sorry, ${file} doesn't exist`);
 };
+export const sortArray = (arr) => arr.reduce((acc, el) => {
+  if (el >= acc.slice(-1)[0]) {
+    return [...acc, el];
+  }
+  if (acc[0] < el) {
+    return sortArray([el, ...acc]);
+  }
+  return [el, ...acc];
+}, []);

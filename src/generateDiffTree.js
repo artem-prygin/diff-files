@@ -1,11 +1,10 @@
-import { isObject } from './helpers.js';
+import { isObject, sortArray } from './helpers.js';
 
 const generateDiffTree = (data1, data2) => {
-  const filteredKeys = Object.keys(data1)
+  const uniqueKeys = Object.keys(data1)
     .concat(Object.keys(data2))
     .filter((el, index, arr) => arr.indexOf(el) === index);
-
-  const sortedKeys = [...filteredKeys].sort();
+  const sortedKeys = sortArray(uniqueKeys);
 
   return sortedKeys.flatMap((key) => {
     switch (true) {
