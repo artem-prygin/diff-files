@@ -10,15 +10,24 @@ const fakeFile = new URL('./__fixtures__/fake.txt', import.meta.url).pathname;
 
 const expectedStylish = new URL('./__fixtures__/expectedStylish.txt', import.meta.url).pathname;
 const expectedPlain = new URL('./__fixtures__/expectedPlain.txt', import.meta.url).pathname;
+const expectedJson = new URL('./__fixtures__/expectedJson.json', import.meta.url).pathname;
 
 describe('gendiff', () => {
-  test('stylish format', () => {
+  test('stylish format (default)', () => {
     expect(gendiff(fileJson1, fileYml2)).toBe(fs.readFileSync(expectedStylish, 'utf-8'));
   });
   test('plain format', () => {
     expect(gendiff(fileYml1, fileJson2, 'plain')).toBe(fs.readFileSync(expectedPlain, 'utf-8'));
   });
-  test('has unsupported extension', () => {
+  test('json format', () => {
+    expect(gendiff(fileYml1, fileJson2, 'json')).toBe(fs.readFileSync(expectedJson, 'utf-8'));
+  });
+  test('unsupported output format', () => {
+    expect(() => {
+      gendiff(fileJson1, fileJson2, 'fakeFormat');
+    }).toThrowError();
+  });
+  test('unsupported file extension', () => {
     expect(() => {
       gendiff(fileJson1, fileTxt);
     }).toThrowError();

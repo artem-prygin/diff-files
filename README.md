@@ -10,8 +10,11 @@
 **Comparing two YAML files**
 [![asciicast](https://asciinema.org/a/CulPSucSaOXUxQLUzaS5EfsBX.svg)](https://asciinema.org/a/CulPSucSaOXUxQLUzaS5EfsBX)
 
-**Comparing two complex files with stylish format**
+**Comparing two complex files in stylish format**
 [![asciicast](https://asciinema.org/a/cIqgZnDUqgEoxT9J28PZwswki.svg)](https://asciinema.org/a/cIqgZnDUqgEoxT9J28PZwswki)
 
-**Comparing two complex files with plain format**
+**Comparing two complex files in plain format**
 [![asciicast](https://asciinema.org/a/ZPDxQ3S15wTwzJ5DSBqjyjueU.svg)](https://asciinema.org/a/ZPDxQ3S15wTwzJ5DSBqjyjueU)
+
+**Comparing two complex files in json format**
+[![asciicast](https://asciinema.org/a/B0mKrpDJGsKi5pBZglF9avjlO.svg)](https://asciinema.org/a/B0mKrpDJGsKi5pBZglF9avjlO)
