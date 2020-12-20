@@ -12,3 +12,6 @@
 
 **Comparing two complex files with stylish format**
 [![asciicast](https://asciinema.org/a/cIqgZnDUqgEoxT9J28PZwswki.svg)](https://asciinema.org/a/cIqgZnDUqgEoxT9J28PZwswki)
+
+**Comparing two complex files with plain format**
+[![asciicast](https://asciinema.org/a/ZPDxQ3S15wTwzJ5DSBqjyjueU.svg)](https://asciinema.org/a/ZPDxQ3S15wTwzJ5DSBqjyjueU)
