@@ -23,20 +23,16 @@ const outputData = {
   updated: ({ key, value, oldValue }, parentKeys) => `Property '${joinKeys(parentKeys, key)}' was updated. From ${valueToString(oldValue)} to ${valueToString(value)}`,
 };
 
-const plain = (diffTree, parentKeys = []) => {
-  const plainTree = diffTree
-    .flatMap((el) => {
-      if (el.status === 'hasChildren') {
-        return plain(el.value, [...parentKeys, el.key]);
-      }
-      if (Object.keys(outputData).includes(el.status)) {
-        return outputData[el.status](el, parentKeys);
-      }
-      return [];
-    })
-    .join('\n');
-
-  return plainTree;
-};
+const plain = (diffTree, parentKeys = []) => diffTree
+  .flatMap((el) => {
+    if (el.status === 'hasChildren') {
+      return plain(el.value, [...parentKeys, el.key]);
+    }
+    if (Object.keys(outputData).includes(el.status)) {
+      return outputData[el.status](el, parentKeys);
+    }
+    return [];
+  })
+  .join('\n');
 
 export default plain;
