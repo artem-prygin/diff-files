@@ -1,29 +1,32 @@
-import { isObject, sortArray } from './helpers.js';
+import _ from 'lodash';
+import { sortArray } from './helpers.js';
 
 const generateDiffTree = (data1, data2) => {
-  const uniqueKeys = Object.keys(data1)
-    .concat(Object.keys(data2))
-    .filter((el, index, arr) => arr.indexOf(el) === index);
+  const uniqueKeys = _.union(_.keys(data1), _.keys(data2));
   const sortedKeys = sortArray(uniqueKeys);
 
   return sortedKeys.flatMap((key) => {
-    switch (true) {
-      case isObject(data1[key]) && isObject(data2[key]):
-        return { key, value: generateDiffTree(data1[key], data2[key]), status: 'hasChildren' };
-      case data1[key] !== undefined && data2[key] !== undefined:
-        return data1[key] === data2[key]
-          ? { key, value: data1[key], status: 'unchanged' }
-          : {
-            key,
-            value: data2[key],
-            oldValue: data1[key],
-            status: 'updated',
-          };
-      case data2[key] === undefined:
-        return { key, value: data1[key], status: 'removed' };
-      default:
-        return { key, value: data2[key], status: 'added' };
+    if (_.isObject(data1[key]) && _.isObject(data2[key])) {
+      return { key, value: generateDiffTree(data1[key], data2[key]), status: 'hasChildren' };
     }
+
+    if (data1[key] === data2[key]) {
+      return { key, value: data1[key], status: 'unchanged' };
+    }
+
+    if (_.has(data1, key) && _.has(data2, key)) {
+      return {
+        key,
+        value: data2[key],
+        oldValue: data1[key],
+        status: 'updated',
+      };
+    }
+
+    if (!_.has(data2, key)) {
+      return { key, value: data1[key], status: 'removed' };
+    }
+    return { key, value: data2[key], status: 'added' };
   });
 };
 

@@ -1,4 +1,4 @@
-import { isObject } from '../helpers.js';
+import _ from 'lodash';
 
 const joinKeys = (parentKeys, key) => {
   if (parentKeys.length === 0) {
@@ -8,7 +8,7 @@ const joinKeys = (parentKeys, key) => {
 };
 
 const valueToString = (value) => {
-  if (isObject(value)) {
+  if (_.isObject(value)) {
     return '[complex value]';
   }
   if (typeof value === 'string') {

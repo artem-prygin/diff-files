@@ -1,7 +1,8 @@
-import { isObject, repeatSpaces, repeatSpacesForChanged } from '../helpers.js';
+import _ from 'lodash';
+import { repeatSpaces, repeatSpacesForChanged } from '../helpers.js';
 
 const valueToString = (data, depth) => {
-  if (!isObject(data)) {
+  if (!_.isObject(data)) {
     return data;
   }
   const dataEntries = Object.entries(data)

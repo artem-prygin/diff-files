@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/artem-prygin/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/artem-prygin/frontend-project-lvl2/actions)",
+  "description": "console package, that compares two files and shows the difference between them. Json and Yaml formats are supported.",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/artem-prygin/frontend-project-lvl2.git"
   },
-  "author": "Artem Prygin [aprygin@mail.ru]",
+  "author": "Artem Prygin <aprygin@mail.ru>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/artem-prygin/frontend-project-lvl2/issues"
@@ -26,7 +26,8 @@
   "homepage": "https://github.com/artem-prygin/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "^6.2.0",
-    "js-yaml": "^3.14.1"
+    "js-yaml": "^3.14.1",
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "@jest/globals": "^26.6.2",
