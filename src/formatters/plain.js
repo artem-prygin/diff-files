@@ -18,21 +18,18 @@ const valueToString = (value) => {
 };
 
 const outputData = {
+  hasChildren: ({ key, children }, parentKeys, func) => func(children, [...parentKeys, key]),
+  unchanged: () => [],
   added: ({ key, value }, parentKeys) => `Property '${joinKeys(parentKeys, key)}' was added with value: ${valueToString(value)}`,
   removed: ({ key }, parentKeys) => `Property '${joinKeys(parentKeys, key)}' was removed`,
-  updated: ({ key, value, oldValue }, parentKeys) => `Property '${joinKeys(parentKeys, key)}' was updated. From ${valueToString(oldValue)} to ${valueToString(value)}`,
+  updated: ({ key, newValue, oldValue }, parentKeys) => `Property '${joinKeys(parentKeys, key)}' was updated. From ${valueToString(oldValue)} to ${valueToString(newValue)}`,
 };
 
-const plain = (diffTree, parentKeys = []) => diffTree
-  .flatMap((el) => {
-    if (el.status === 'hasChildren') {
-      return plain(el.value, [...parentKeys, el.key]);
-    }
-    if (Object.keys(outputData).includes(el.status)) {
-      return outputData[el.status](el, parentKeys);
-    }
-    return [];
-  })
-  .join('\n');
+const generatePlainOutput = (diffTree) => {
+  const generateInnerOutput = (innerDiffTree, parentKeys) => innerDiffTree
+    .flatMap((el) => outputData[el.type](el, parentKeys, generateInnerOutput))
+    .join('\n');
+  return generateInnerOutput(diffTree, []);
+};
 
-export default plain;
+export default generatePlainOutput;

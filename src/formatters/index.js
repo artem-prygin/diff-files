@@ -1,10 +1,16 @@
-import stylish from './stylish.js';
-import plain from './plain.js';
+import generateStylishOutput from './stylish.js';
+import generatePlainOutput from './plain.js';
 
-const formatTypes = { stylish, plain, json: JSON.stringify };
+const formatTypes = {
+  stylish: generateStylishOutput,
+  plain: generatePlainOutput,
+  json: JSON.stringify,
+};
+
 export default (diffTree, format = 'stylish') => {
-  if (!Object.keys(formatTypes).includes(format)) {
+  const outputFormatter = formatTypes[format];
+  if (!outputFormatter) {
     throw new Error('This format type is not supported');
   }
-  return formatTypes[format](diffTree);
+  return outputFormatter(diffTree);
 };

@@ -1,8 +1,9 @@
 import _ from 'lodash';
-import { repeatSpaces, repeatSpacesForChanged } from '../helpers.js';
 
+const repeatSpaces = (depth) => ' '.repeat(depth * 4);
+const repeatSpacesForChanged = (depth) => repeatSpaces(depth).slice(2);
 const valueToString = (data, depth) => {
-  if (!_.isObject(data)) {
+  if (!_.isPlainObject(data)) {
     return data;
   }
   const dataEntries = Object.entries(data)
@@ -10,23 +11,25 @@ const valueToString = (data, depth) => {
     .join('\n');
   return `{\n${dataEntries}\n${repeatSpaces(depth)}}`;
 };
-
 const generateString = (key, value, symbol, depth) => `${repeatSpacesForChanged(depth)}${symbol} ${key}: ${valueToString(value, depth)}`;
 
-const outputOptions = {
-  // eslint-disable-next-line no-use-before-define
-  hasChildren: ({ key, value }, depth) => `${repeatSpaces(depth)}${key}: ${stylish(value, depth + 1)}`,
+const outputData = {
+  hasChildren: ({ key, children }, depth, func) => `${repeatSpaces(depth)}${key}: ${func(children, depth + 1)}`,
   removed: ({ key, value }, depth) => generateString(key, value, '-', depth),
   added: ({ key, value }, depth) => generateString(key, value, '+', depth),
   unchanged: ({ key, value }, depth) => `${repeatSpaces(depth)}${key}: ${valueToString(value, depth)}`,
-  updated: ({ key, value, oldValue }, depth) => `${generateString(key, oldValue, '-', depth)}\n${generateString(key, value, '+', depth)}`,
+  updated: ({ key, newValue, oldValue }, depth) => `${generateString(key, oldValue, '-', depth)}\n${generateString(key, newValue, '+', depth)}`,
 };
 
-const stylish = (diffTree, depth = 1) => {
-  const stylishTree = diffTree
-    .map((el) => outputOptions[el.status](el, depth))
-    .join('\n');
-  return `{\n${stylishTree}\n${depth === 1 ? '' : repeatSpaces(depth - 1)}}`;
+const generateStylishOutput = (diffTree) => {
+  const generateInnerOutput = (innerDiffTree, depth) => {
+    const stylishTree = innerDiffTree
+      .map((el) => outputData[el.type](el, depth, generateInnerOutput))
+      .join('\n');
+    return `{\n${stylishTree}\n${depth === 1 ? '' : repeatSpaces(depth - 1)}}`;
+  };
+
+  return generateInnerOutput(diffTree, 1);
 };
 
-export default stylish;
+export default generateStylishOutput;

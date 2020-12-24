@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { makeAbsolutePath } from './helpers.js';
 import parse from './parsers.js';
 import formatData from './formatters/index.js';
-import generateDiffTree from './generateDiffTree.js';
+import generateDiffTree from './diffTree.js';
+
+const makeAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath);
 
 export default (filepath1, filepath2, format = 'stylish') => {
   const data1 = fs.readFileSync(makeAbsolutePath(filepath1), 'utf-8');
