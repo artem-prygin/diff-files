@@ -1,40 +1,33 @@
 import fs from 'fs';
 import gendiff from '../index.js';
 
-const fileJson1 = new URL('./__fixtures__/file1.json', import.meta.url).pathname;
-const fileJson2 = new URL('./__fixtures__/file2.json', import.meta.url).pathname;
-const fileYml1 = new URL('./__fixtures__/file1.yml', import.meta.url).pathname;
-const fileYml2 = new URL('./__fixtures__/file2.yml', import.meta.url).pathname;
-const fileTxt = new URL('./__fixtures__/foo.txt', import.meta.url).pathname;
-const fakeFile = new URL('./__fixtures__/fake.txt', import.meta.url).pathname;
-
-const expectedStylish = new URL('./__fixtures__/expectedStylish.txt', import.meta.url).pathname;
-const expectedPlain = new URL('./__fixtures__/expectedPlain.txt', import.meta.url).pathname;
-const expectedJson = new URL('./__fixtures__/expectedJson.json', import.meta.url).pathname;
+const generatePathname = (path) => new URL(`../__fixtures__/${path}`, import.meta.url).pathname;
+const testsSuccessOptions = [
+  ['file1.json', 'file2.yml', 'stylish'],
+  ['file1.yml', 'file2.json', 'plain'],
+  ['file1.yml', 'file2.json', 'json'],
+];
+const testsFailOptions = [
+  ['file1.yml', 'file2.json', 'unsupported'],
+  ['file1.yml', 'unsupportedFileType.txt', 'stylish'],
+  ['file1.yml', 'notExistingFile.yml', 'plain'],
+];
 
 describe('gendiff', () => {
-  test('stylish format (default)', () => {
-    expect(gendiff(fileJson1, fileYml2)).toBe(fs.readFileSync(expectedStylish, 'utf-8'));
-  });
-  test('plain format', () => {
-    expect(gendiff(fileYml1, fileJson2, 'plain')).toBe(fs.readFileSync(expectedPlain, 'utf-8'));
-  });
-  test('json format', () => {
-    expect(gendiff(fileYml1, fileJson2, 'json')).toBe(fs.readFileSync(expectedJson, 'utf-8'));
-  });
-  test('unsupported output format', () => {
-    expect(() => {
-      gendiff(fileJson1, fileJson2, 'fakeFormat');
-    }).toThrowError();
-  });
-  test('unsupported file extension', () => {
-    expect(() => {
-      gendiff(fileJson1, fileTxt);
-    }).toThrowError();
-  });
-  test('file doesn\'t exist', () => {
-    expect(() => {
-      gendiff(fileYml2, fakeFile);
-    }).toThrowError();
-  });
+  test.each(testsSuccessOptions)('gendiff for %s & %s in %s format is equal to %s',
+    (file1, file2, format) => {
+      if (format === 'json') {
+        expect(() => {
+          JSON.parse(gendiff(generatePathname(file1), generatePathname(file2), format));
+        }).not.toThrowError();
+      }
+      expect(gendiff(generatePathname(file1), generatePathname(file2), format))
+        .toBe(fs.readFileSync(generatePathname(`expected_${format}`), 'utf-8'));
+    });
+  test.each(testsFailOptions)('gendiff for %s & %s in %s format throws error',
+    (file1, file2, format) => {
+      expect(() => {
+        gendiff(generatePathname(file1), generatePathname(file2), format);
+      }).toThrowError();
+    });
 });

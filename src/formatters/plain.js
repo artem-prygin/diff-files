@@ -1,14 +1,7 @@
-import _ from 'lodash';
+const joinKeys = (parentKeys, key) => [...parentKeys, key].join('.');
 
-const joinKeys = (parentKeys, key) => {
-  if (parentKeys.length === 0) {
-    return key;
-  }
-  return `${parentKeys.join('.')}.${key}`;
-};
-
-const valueToString = (value) => {
-  if (_.isObject(value)) {
+const stringify = (value) => {
+  if (typeof value === 'object' && value !== null) {
     return '[complex value]';
   }
   if (typeof value === 'string') {
@@ -17,19 +10,22 @@ const valueToString = (value) => {
   return value;
 };
 
-const outputData = {
-  hasChildren: ({ key, children }, parentKeys, func) => func(children, [...parentKeys, key]),
+const outputMapping = {
+  nested: ({ key, children }, parentKeys, func) => func(children, [...parentKeys, key]),
   unchanged: () => [],
-  added: ({ key, value }, parentKeys) => `Property '${joinKeys(parentKeys, key)}' was added with value: ${valueToString(value)}`,
+  added: ({ key, value }, parentKeys) => `Property '${joinKeys(parentKeys, key)}' was added with value: ${stringify(value)}`,
   removed: ({ key }, parentKeys) => `Property '${joinKeys(parentKeys, key)}' was removed`,
-  updated: ({ key, newValue, oldValue }, parentKeys) => `Property '${joinKeys(parentKeys, key)}' was updated. From ${valueToString(oldValue)} to ${valueToString(newValue)}`,
+  updated: ({ key, newValue, oldValue }, parentKeys) => {
+    const updatedKeyInfo = `Property '${joinKeys(parentKeys, key)}' was updated. `;
+    const updatedValueInfo = `From ${stringify(oldValue)} to ${stringify(newValue)}`;
+    return `${updatedKeyInfo}${updatedValueInfo}`;
+  },
 };
 
-const generatePlainOutput = (diffTree) => {
-  const generateInnerOutput = (innerDiffTree, parentKeys) => innerDiffTree
-    .flatMap((el) => outputData[el.type](el, parentKeys, generateInnerOutput))
-    .join('\n');
-  return generateInnerOutput(diffTree, []);
+const generatePlain = (diffTree) => {
+  const iter = (innerDiffTree, parentKeys) => innerDiffTree
+    .flatMap((el) => outputMapping[el.type](el, parentKeys, iter));
+  return iter(diffTree, []).join('\n');
 };
 
-export default generatePlainOutput;
+export default generatePlain;

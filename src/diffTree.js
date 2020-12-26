@@ -6,10 +6,10 @@ const generateDiffTree = (data1, data2) => {
 
   return sortedKeys.flatMap((key) => {
     if (_.isPlainObject(data1[key]) && _.isPlainObject(data2[key])) {
-      return { key, children: generateDiffTree(data1[key], data2[key]), type: 'hasChildren' };
+      return { key, children: generateDiffTree(data1[key], data2[key]), type: 'nested' };
     }
 
-    if (data1[key] === data2[key]) {
+    if (_.isEqual(data1[key], data2[key])) {
       return { key, value: data1[key], type: 'unchanged' };
     }
 

@@ -9,7 +9,7 @@
 
 ## Installation
 You must have [**node.js**](https://nodejs.org/en/) installed on your machine (version 14.x is preferable). <br>
-To install the package on you machine run:
+To install the package on your machine run:
 <pre><code>npm install -g @hexlet/code</code></pre>
 
 To compare files in a stylish format (provided by default) run

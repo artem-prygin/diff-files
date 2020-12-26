@@ -1,16 +1,16 @@
 import generateStylishOutput from './stylish.js';
 import generatePlainOutput from './plain.js';
 
-const formatTypes = {
+const formatFunctions = {
   stylish: generateStylishOutput,
   plain: generatePlainOutput,
   json: JSON.stringify,
 };
 
 export default (diffTree, format = 'stylish') => {
-  const outputFormatter = formatTypes[format];
-  if (!outputFormatter) {
+  const formatDiffTree = formatFunctions[format];
+  if (!formatDiffTree) {
     throw new Error('This format type is not supported');
   }
-  return outputFormatter(diffTree);
+  return formatDiffTree(diffTree);
 };
