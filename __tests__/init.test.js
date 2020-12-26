@@ -24,6 +24,7 @@ describe('gendiff', () => {
       expect(gendiff(generatePathname(file1), generatePathname(file2), format))
         .toBe(fs.readFileSync(generatePathname(`expected_${format}`), 'utf-8'));
     });
+
   test.each(testsFailOptions)('gendiff for %s & %s in %s format throws error',
     (file1, file2, format) => {
       expect(() => {
