@@ -1,9 +1,9 @@
-import generateStylishOutput from './stylish.js';
-import generatePlainOutput from './plain.js';
+import generateStylish from './stylish.js';
+import generatePlain from './plain.js';
 
 const formatFunctions = {
-  stylish: generateStylishOutput,
-  plain: generatePlainOutput,
+  stylish: generateStylish,
+  plain: generatePlain,
   json: JSON.stringify,
 };
 

@@ -6,9 +6,10 @@ const types = {
 };
 
 export default (data, type) => {
-  if (type in types) {
-    return types[type](data);
+  const parse = types[type];
+  if (!parse) {
+    const supportedTypes = Object.keys(types).join(', ');
+    throw new Error(`Supported file types are: ${supportedTypes}`);
   }
-  const supportedTypes = Object.keys(types).join(', ');
-  throw new Error(`Supported file types are: ${supportedTypes}`);
+  return parse(data);
 };

@@ -14,18 +14,19 @@ const testsFailOptions = [
 ];
 
 describe('gendiff', () => {
-  test.each(testsSuccessOptions)('gendiff for %s & %s in %s format is equal to %s',
+  test.each(testsSuccessOptions)('gendiff for %s & %s in %s format',
     (file1, file2, format) => {
       if (format === 'json') {
         expect(() => {
           JSON.parse(gendiff(generatePathname(file1), generatePathname(file2), format));
         }).not.toThrowError();
       }
+      const fileContent = fs.readFileSync(generatePathname(`expected_${format}.txt`), 'utf-8');
       expect(gendiff(generatePathname(file1), generatePathname(file2), format))
-        .toBe(fs.readFileSync(generatePathname(`expected_${format}`), 'utf-8'));
+        .toBe(fileContent);
     });
 
-  test.each(testsFailOptions)('gendiff for %s & %s in %s format throws error',
+  test.each(testsFailOptions)('gendiff for %s & %s in %s format',
     (file1, file2, format) => {
       expect(() => {
         gendiff(generatePathname(file1), generatePathname(file2), format);
