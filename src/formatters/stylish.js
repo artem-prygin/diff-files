@@ -12,14 +12,14 @@ const stringify = (data, depth, mapping) => {
   return `{\n${dataEntries}\n${repeatSpaces(depth)}}`;
 };
 
-const outputMapping = {
+const mapping = {
   nested: ({ key, children }, depth, func) => `${repeatSpaces(depth)}${key}: ${func(children, depth + 1)}`,
-  removed: ({ key, value }, depth) => `${repeatSpaces(depth, 2)}- ${key}: ${stringify(value, depth, outputMapping)}`,
-  added: ({ key, value }, depth) => `${repeatSpaces(depth, 2)}+ ${key}: ${stringify(value, depth, outputMapping)}`,
-  unchanged: ({ key, value }, depth) => `${repeatSpaces(depth)}${key}: ${stringify(value, depth, outputMapping)}`,
+  removed: ({ key, value }, depth) => `${repeatSpaces(depth, 2)}- ${key}: ${stringify(value, depth, mapping)}`,
+  added: ({ key, value }, depth) => `${repeatSpaces(depth, 2)}+ ${key}: ${stringify(value, depth, mapping)}`,
+  unchanged: ({ key, value }, depth) => `${repeatSpaces(depth)}${key}: ${stringify(value, depth, mapping)}`,
   updated: ({ key, newValue, oldValue }, depth) => {
-    const oldValueInfo = `${repeatSpaces(depth, 2)}- ${key}: ${stringify(oldValue, depth, outputMapping)}`;
-    const newValueInfo = `${repeatSpaces(depth, 2)}+ ${key}: ${stringify(newValue, depth, outputMapping)}`;
+    const oldValueInfo = `${repeatSpaces(depth, 2)}- ${key}: ${stringify(oldValue, depth, mapping)}`;
+    const newValueInfo = `${repeatSpaces(depth, 2)}+ ${key}: ${stringify(newValue, depth, mapping)}`;
     return `${oldValueInfo}\n${newValueInfo}`;
   },
 };
@@ -27,7 +27,7 @@ const outputMapping = {
 const generateStylish = (diffTree) => {
   const iter = (innerDiffTree, depth) => {
     const stylishTree = innerDiffTree
-      .map((el) => outputMapping[el.type](el, depth, iter))
+      .map((el) => mapping[el.type](el, depth, iter))
       .join('\n');
     return `{\n${stylishTree}\n${depth === 1 ? '' : `${repeatSpaces(depth - 1)}`}}`;
   };
