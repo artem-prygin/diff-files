@@ -15,21 +15,21 @@ const testsFailOptions = [
 
 describe('gendiff', () => {
   test.each(testsSuccessOptions)('gendiff for %s & %s in %s format',
-    (file1, file2, format) => {
-      if (format === 'json') {
+    (file1, file2, formatName) => {
+      if (formatName === 'json') {
         expect(() => {
-          JSON.parse(gendiff(generatePathname(file1), generatePathname(file2), format));
+          JSON.parse(gendiff(generatePathname(file1), generatePathname(file2), formatName));
         }).not.toThrowError();
       }
-      const fileContent = fs.readFileSync(generatePathname(`expected_${format}.txt`), 'utf-8');
-      expect(gendiff(generatePathname(file1), generatePathname(file2), format))
+      const fileContent = fs.readFileSync(generatePathname(`expected_${formatName}.txt`), 'utf-8');
+      expect(gendiff(generatePathname(file1), generatePathname(file2), formatName))
         .toBe(fileContent);
     });
 
   test.each(testsFailOptions)('gendiff for %s & %s in %s format',
-    (file1, file2, format) => {
+    (file1, file2, formatName) => {
       expect(() => {
-        gendiff(generatePathname(file1), generatePathname(file2), format);
+        gendiff(generatePathname(file1), generatePathname(file2), formatName);
       }).toThrowError();
     });
 });
